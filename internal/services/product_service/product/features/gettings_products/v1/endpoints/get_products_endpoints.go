@@ -14,7 +14,7 @@ import (
 	"github.com/mehdihadeli/go-mediatr"
 )
 
-func Maproute(validator *validator.Validate, log logger.ILogger, echo *echo.Echo, ctx context.Context) {
+func MapRoute(validator *validator.Validate, log logger.ILogger, echo *echo.Echo, ctx context.Context) {
 	group := echo.Group("/api/v1/products")
 	group.GET("", getAllProducts(validator, log, ctx), echomiddleware.ValidateBearerToken())
 }
