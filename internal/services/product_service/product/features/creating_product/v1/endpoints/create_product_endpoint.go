@@ -4,6 +4,7 @@ import (
 	"context"
 	"net/http"
 
+	echomiddleware "github.com/Drack112/Golang-GQRS-Example/internal/pkg/http/echo/middleware"
 	"github.com/Drack112/Golang-GQRS-Example/internal/pkg/logger"
 	"github.com/go-playground/validator/v10"
 	"github.com/labstack/echo/v4"
@@ -16,7 +17,7 @@ import (
 
 func MapRoute(validator *validator.Validate, log logger.ILogger, echo *echo.Echo, ctx context.Context) {
     group := echo.Group("/api/v1/products")
-    group.POST("", createProduct(validator, log, ctx))
+    group.POST("", createProduct(validator, log, ctx), echomiddleware.ValidateBearerToken())
 }
 
 func createProduct(validator *validator.Validate, log logger.ILogger, ctx context.Context) echo.HandlerFunc {
