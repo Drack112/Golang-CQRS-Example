@@ -15,14 +15,15 @@ import (
 )
 
 type CreateProductHandler struct {
-    log logger.ILogger
-    rabbitMqPublisher rabbitmq.IPublisher
-    productRepository contracts.ProductRepository
-    ctx context.Context
-    grpcClient grpc.GrpcClient
+	log               logger.ILogger
+	rabbitMqPublisher rabbitmq.IPublisher
+	productRepository contracts.ProductRepository
+	ctx               context.Context
+	grpcClient        grpc.GrpcClient
 }
+
 func NewCreateProductHandler(log logger.ILogger, rabbitMqPublisher rabbitmq.IPublisher, productRepository contracts.ProductRepository, ctx context.Context, grpcClient grpc.GrpcClient) *CreateProductHandler {
-    return &CreateProductHandler{log: log, productRepository: productRepository, ctx: ctx, rabbitMqPublisher: rabbitMqPublisher, grpcClient: grpcClient}
+	return &CreateProductHandler{log: log, productRepository: productRepository, ctx: ctx, rabbitMqPublisher: rabbitMqPublisher, grpcClient: grpcClient}
 }
 
 func (c *CreateProductHandler) Handle(ctx context.Context, command *CreateProduct) (*dtosv1.CreateProductResponseDto, error) {

@@ -18,12 +18,12 @@ type CreateProduct struct {
 
 func NewCreateProduct(name string, description string, price float64, inventoryId int64, count int32) *CreateProduct {
 	return &CreateProduct{
-        ProductID: uuid.NewV4(), 
-        Name: name, 
-        Description: description,
-		Price: price, 
-        CreatedAt: time.Now(), 
-        InventoryId: inventoryId, 
-        Count: count,
-    }
+		ProductID:   uuid.NewV4(),
+		Name:        name,
+		Description: description,
+		Price:       price,
+		CreatedAt:   time.Now(),
+		InventoryId: inventoryId,
+		Count:       count,
+	}
 }

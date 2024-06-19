@@ -16,10 +16,20 @@ import (
 )
 
 func MapRoute(validator *validator.Validate, log logger.ILogger, echo *echo.Echo, ctx context.Context) {
-    group := echo.Group("/api/v1/products")
-    group.POST("", createProduct(validator, log, ctx), echomiddleware.ValidateBearerToken())
+	group := echo.Group("/api/v1/products")
+	group.POST("", createProduct(validator, log, ctx), echomiddleware.ValidateBearerToken())
 }
 
+// CreateProduct
+// @Tags        Products
+// @Summary     Create product
+// @Description Create new product item
+// @Accept      json
+// @Produce     json
+// @Param       CreateProductRequestDto body     dtos.CreateProductRequestDto true "Product data"
+// @Success     201                     {object} dtos.CreateProductResponseDto
+// @Security ApiKeyAuth
+// @Router      /api/v1/products [post]
 func createProduct(validator *validator.Validate, log logger.ILogger, ctx context.Context) echo.HandlerFunc {
 	return func(c echo.Context) error {
 
