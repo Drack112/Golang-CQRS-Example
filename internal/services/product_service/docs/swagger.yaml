@@ -1,6 +1,136 @@
+definitions:
+  dtos.CreateProductRequestDto:
+    properties:
+      count:
+        type: integer
+      description:
+        type: string
+      inventoryId:
+        type: integer
+      name:
+        type: string
+      price:
+        type: number
+    type: object
+  dtos.CreateProductResponseDto:
+    properties:
+      productId:
+        type: string
+    type: object
+  dtos.GetProductByIdResponseDto:
+    properties:
+      product:
+        $ref: '#/definitions/dtos.ProductDto'
+    type: object
+  dtos.GetProductsResponseDto:
+    properties:
+      products:
+        type: object
+    type: object
+  dtos.ProductDto:
+    properties:
+      count:
+        type: integer
+      createdAt:
+        type: string
+      description:
+        type: string
+      inventoryId:
+        type: integer
+      name:
+        type: string
+      price:
+        type: number
+      productId:
+        type: string
+      updatedAt:
+        type: string
+    type: object
+  utils.FilterModel:
+    properties:
+      comparison:
+        type: string
+      field:
+        type: string
+      value:
+        type: string
+    type: object
 info:
   contact: {}
-paths: {}
+paths:
+  /api/v1/products:
+    get:
+      consumes:
+      - application/json
+      description: Get all products
+      parameters:
+      - in: query
+        name: orderBy
+        type: string
+      - in: query
+        name: page
+        type: integer
+      - in: query
+        name: size
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dtos.GetProductsResponseDto'
+      security:
+      - ApiKeyAuth: []
+      summary: Get all product
+      tags:
+      - Products
+    post:
+      consumes:
+      - application/json
+      description: Create new product item
+      parameters:
+      - description: Product data
+        in: body
+        name: CreateProductRequestDto
+        required: true
+        schema:
+          $ref: '#/definitions/dtos.CreateProductRequestDto'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dtos.CreateProductResponseDto'
+      security:
+      - ApiKeyAuth: []
+      summary: Create product
+      tags:
+      - Products
+  /api/v1/products/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get product by id
+      parameters:
+      - description: Product ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dtos.GetProductByIdResponseDto'
+      security:
+      - ApiKeyAuth: []
+      summary: Get product
+      tags:
+      - Products
 securityDefinitions:
   ApiKeyAuth:
     in: header
