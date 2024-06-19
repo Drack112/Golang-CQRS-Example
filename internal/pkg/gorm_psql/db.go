@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/Drack112/Golang-GQRS-Example/internal/pkg/logger"
 	"github.com/Drack112/Golang-GQRS-Example/internal/pkg/utils"
 	"github.com/cenkalti/backoff/v4"
 	"github.com/pkg/errors"
@@ -30,7 +31,7 @@ type Gorm struct {
 	config *GormPostgresConfig
 }
 
-func NewGorm(config *GormPostgresConfig) (*gorm.DB, error) {
+func NewGorm(config *GormPostgresConfig, log logger.ILogger) (*gorm.DB, error) {
 
 	var dataSourceName string
 
@@ -69,6 +70,9 @@ func NewGorm(config *GormPostgresConfig) (*gorm.DB, error) {
 		return nil
 
 	}, backoff.WithMaxRetries(bo, uint64(maxRetries-1)))
+
+
+	log.Infof("Connected to Postgres, (database %s)", config.DBName)
 
 	return gormDb, err
 }
