@@ -109,6 +109,26 @@ paths:
       tags:
       - Products
   /api/v1/products/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete existing product
+      parameters:
+      - description: Product ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: ""
+      security:
+      - ApiKeyAuth: []
+      summary: Delete product
+      tags:
+      - Products
     get:
       consumes:
       - application/json

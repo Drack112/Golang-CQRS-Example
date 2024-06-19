@@ -1,5 +1,13 @@
 .PHONY:
 
+### for running all commands we need bash command lien ###
+
+## choco install make
+# ==============================================================================
+# Run Services
+run_products_service:
+	cd internal/services/product_service/ && 	go run ./cmd/main.go
+
 ## go install github.com/swaggo/swag/cmd/swag@v1.8.3
 # Swagger products Service  #https://github.com/swaggo/swag/issues/817
 # ==============================================================================

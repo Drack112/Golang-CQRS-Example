@@ -9,6 +9,7 @@ import (
 	"github.com/Drack112/Golang-GQRS-Example/internal/services/product_service/product/data/contracts"
 	creatingproductv1commands "github.com/Drack112/Golang-GQRS-Example/internal/services/product_service/product/features/creating_product/v1/commands"
 	creatingproductv1dtos "github.com/Drack112/Golang-GQRS-Example/internal/services/product_service/product/features/creating_product/v1/dtos"
+	deletingproductv1commands "github.com/Drack112/Golang-GQRS-Example/internal/services/product_service/product/features/deleting_product/v1/commands"
 	gettingproductbyidv1dtos "github.com/Drack112/Golang-GQRS-Example/internal/services/product_service/product/features/getting_product_by_id/v1/dtos"
 	gettingproductbyidv1queries "github.com/Drack112/Golang-GQRS-Example/internal/services/product_service/product/features/getting_product_by_id/v1/queries"
 	gettingproductsv1dtos "github.com/Drack112/Golang-GQRS-Example/internal/services/product_service/product/features/gettings_products/v1/dtos"
@@ -41,5 +42,11 @@ func ConfigProductsMediator(log logger.ILogger, rabbitmqPublisher rabbitmq.IPubl
 	if err != nil {
 		return err
 	}
+
+	err = mediatr.RegisterRequestHandler[*deletingproductv1commands.DeleteProduct, *mediatr.Unit](deletingproductv1commands.NewDeleteProductHandler(log, rabbitmqPublisher, productRepository, ctx, grpcClient))
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
