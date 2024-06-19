@@ -46,6 +46,24 @@ definitions:
       updatedAt:
         type: string
     type: object
+  dtos.UpdateProductRequestDto:
+    properties:
+      count:
+        type: integer
+      description:
+        type: string
+      inventoryId:
+        type: integer
+      name:
+        type: string
+      price:
+        type: number
+    required:
+    - count
+    - inventoryId
+    - name
+    - price
+    type: object
   utils.FilterModel:
     properties:
       comparison:
@@ -149,6 +167,32 @@ paths:
       security:
       - ApiKeyAuth: []
       summary: Get product
+      tags:
+      - Products
+    put:
+      consumes:
+      - application/json
+      description: Update existing product
+      parameters:
+      - description: Product data
+        in: body
+        name: UpdateProductRequestDto
+        required: true
+        schema:
+          $ref: '#/definitions/dtos.UpdateProductRequestDto'
+      - description: Product ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: ""
+      security:
+      - ApiKeyAuth: []
+      summary: Update product
       tags:
       - Products
 securityDefinitions:
