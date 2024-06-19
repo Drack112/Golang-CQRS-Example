@@ -16,6 +16,8 @@ import (
 	gettingproductsv1queries "github.com/Drack112/Golang-GQRS-Example/internal/services/product_service/product/features/gettings_products/v1/queries"
 	searchingproductsv1dtos "github.com/Drack112/Golang-GQRS-Example/internal/services/product_service/product/features/searching_product/v1/dtos"
 	searchingproductsv1queries "github.com/Drack112/Golang-GQRS-Example/internal/services/product_service/product/features/searching_product/v1/queries"
+	updatingproductv1commands "github.com/Drack112/Golang-GQRS-Example/internal/services/product_service/product/features/updating_product/v1/commands"
+	updatingproductv1dtos "github.com/Drack112/Golang-GQRS-Example/internal/services/product_service/product/features/updating_product/v1/dtos"
 	"github.com/mehdihadeli/go-mediatr"
 )
 
@@ -33,17 +35,22 @@ func ConfigProductsMediator(log logger.ILogger, rabbitmqPublisher rabbitmq.IPubl
 		return err
 	}
 
-	err = mediatr.RegisterRequestHandler[*gettingproductbyidv1queries.GetProductById, *gettingproductbyidv1dtos.GetProductByIdResponseDto](gettingproductbyidv1queries.NewGetProductByIdHandler(log, rabbitmqPublisher, productRepository, ctx, grpcClient))
-	if err != nil {
-		return err
-	}
-
 	err = mediatr.RegisterRequestHandler[*searchingproductsv1queries.SearchProducts, *searchingproductsv1dtos.SearchProductsResponseDto](searchingproductsv1queries.NewSearchProductsHandler(log, rabbitmqPublisher, productRepository, ctx, grpcClient))
 	if err != nil {
 		return err
 	}
 
+	err = mediatr.RegisterRequestHandler[*updatingproductv1commands.UpdateProduct, *updatingproductv1dtos.UpdateProductResponseDto](updatingproductv1commands.NewUpdateProductHandler(log, rabbitmqPublisher, productRepository, ctx, grpcClient))
+	if err != nil {
+		return err
+	}
+
 	err = mediatr.RegisterRequestHandler[*deletingproductv1commands.DeleteProduct, *mediatr.Unit](deletingproductv1commands.NewDeleteProductHandler(log, rabbitmqPublisher, productRepository, ctx, grpcClient))
+	if err != nil {
+		return err
+	}
+
+	err = mediatr.RegisterRequestHandler[*gettingproductbyidv1queries.GetProductById, *gettingproductbyidv1dtos.GetProductByIdResponseDto](gettingproductbyidv1queries.NewGetProductByIdHandler(log, rabbitmqPublisher, productRepository, ctx, grpcClient))
 	if err != nil {
 		return err
 	}
